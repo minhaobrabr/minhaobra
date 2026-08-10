@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+@source "../**/*.{ts,tsx}";
+
+@theme {
+  /* Superfícies */
+  --color-background: #0f1117;
+  --color-surface-1: #161b27;
+  --color-surface-2: #1e2535;
+  --color-surface-3: #252d40;
+  --color-line: #2a3347;
+  --color-line-strong: #3a4560;
+
+  /* Acento único — laranja construção */
+  --color-accent: #f97316;
+  --color-accent-dim: #7c3810;
+  --color-accent-text: #fb923c;
+
+  /* Texto */
+  --color-ink: #e8eaf0;
+  --color-ink-muted: #8b95aa;
+  --color-ink-faint: #4a5568;
+
+  /* Semânticos */
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-danger: #ef4444;
+
+  /* Categorias de despesa */
+  --color-cat-material: #f97316;
+  --color-cat-mao: #3b82f6;
+  --color-cat-servico: #8b5cf6;
+  --color-cat-outro: #6b7280;
+
+  /* Tipografia */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  /* Elevação — nunca preto puro, sempre tingido de azul-noite */
+  --shadow-panel: 0 1px 2px rgba(8, 10, 16, 0.5), 0 8px 24px -12px rgba(8, 10, 16, 0.7);
+  --shadow-float: 0 2px 4px rgba(8, 10, 16, 0.55), 0 24px 48px -20px rgba(8, 10, 16, 0.85);
+
+  /* Overlays do Radix — entrada/saída em CSS, o resto do app usa Motion */
+  --animate-overlay-in: overlay-in 180ms ease-out;
+  --animate-overlay-out: overlay-out 140ms ease-in;
+  --animate-panel-in: panel-in 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-panel-out: panel-out 140ms ease-in;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panel-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-dim);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Remove o spinner nativo dos inputs numéricos */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Ícone do date picker legível sobre fundo escuro */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.65);
+    cursor: pointer;
+  }
+
+  /* Scrollbar discreta */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-3) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-surface-3);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-line);
+}
+
+/* Barra de progresso do painel de preview do login — animação puramente CSS */
+@keyframes fill-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(var(--fill, 1));
+  }
+}
+
+.animate-fill-bar {
+  transform-origin: left center;
+  animation: fill-bar 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fill-bar {
+    animation: none;
+    transform: scaleX(var(--fill, 1));
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Impressão — usada pela tela de Relatório                            */
+/* ------------------------------------------------------------------ */
+@media print {
+  .sidebar,
+  .topbar,
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .print-surface {
+    background: #ffffff !important;
+    border-color: #dddddd !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+  }
+
+  .print-ink {
+    color: #000000 !important;
+  }
+
+  .print-ink-muted {
+    color: #444444 !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    border: 1px solid #dddddd;
+    padding: 4px 8px;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}
