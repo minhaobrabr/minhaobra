@@ -35,7 +35,7 @@ const ASSINATURA_VAZIA: Subscription = {
   status: "trial",
   trialStartedAt: "",
   trialEndsAt: "",
-  planName: "ObraControl Pro",
+  planName: "ObraReal Pro",
   planPrice: 19.9,
   nextBillingAt: null,
   paymentMethod: null,

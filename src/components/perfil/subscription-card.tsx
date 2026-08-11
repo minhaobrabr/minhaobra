@@ -32,7 +32,7 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
 
   function handleAssinar() {
     setStatus("active");
-    toast({ title: "Assinatura ativada. Bem-vindo ao ObraControl Pro." });
+    toast({ title: "Assinatura ativada. Bem-vindo ao ObraReal Pro." });
   }
 
   function handleAdicionarPagamento() {
@@ -146,7 +146,7 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
           open={cancelando}
           onOpenChange={setCancelando}
           title="Cancelar assinatura"
-          itemName="Sua assinatura do ObraControl Pro"
+          itemName="Sua assinatura do ObraReal Pro"
           description="Ao cancelar, você continua com acesso até o fim do período já pago."
           consequence="não será renovada no próximo ciclo."
           confirmLabel="Cancelar assinatura"

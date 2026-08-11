@@ -29,7 +29,7 @@ const PERGUNTAS = [
   },
   {
     pergunta: "Funciona no celular?",
-    resposta: "Sim. O ObraControl é totalmente responsivo e funciona em qualquer dispositivo com navegador.",
+    resposta: "Sim. O ObraReal é totalmente responsivo e funciona em qualquer dispositivo com navegador.",
   },
   {
     pergunta: "Consigo exportar o histórico da minha obra?",

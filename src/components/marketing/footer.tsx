@@ -54,15 +54,15 @@ export function Footer() {
             <p className="text-sm font-medium text-ink">Contato</p>
             <ul className="mt-3 space-y-2.5">
               <li>
-                <Link href="mailto:hello@obracontrol.app" className="text-sm text-ink-muted hover:text-ink">
-                  hello@obracontrol.app
+                <Link href="mailto:hello@obrareal.app" className="text-sm text-ink-muted hover:text-ink">
+                  hello@obrareal.app
                 </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <p className="mt-12 text-xs text-ink-faint">© 2026 ObraControl. Feito com cuidado.</p>
+        <p className="mt-12 text-xs text-ink-faint">© 2026 ObraReal. Feito com cuidado.</p>
       </div>
     </footer>
   );

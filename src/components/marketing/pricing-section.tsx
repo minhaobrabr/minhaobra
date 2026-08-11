@@ -25,7 +25,7 @@ export function PricingSection() {
 
       <ScrollReveal delay={0.08} className="mt-10">
         <div className="mx-auto max-w-sm rounded-2xl border-2 border-accent bg-surface-1 p-8">
-          <p className="text-center text-sm font-medium text-ink-muted">ObraControl Pro</p>
+          <p className="text-center text-sm font-medium text-ink-muted">ObraReal Pro</p>
 
           <div className="mt-4 text-center">
             <span className="font-mono text-5xl font-semibold text-ink">R$ 19,90</span>

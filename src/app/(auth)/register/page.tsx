@@ -11,7 +11,7 @@ export default function RegisterPage() {
     <AuthShell
       title="Comece a controlar sua obra."
       subtitle="Crie sua conta em segundos, com o Google."
-      footer="ObraControl: controle financeiro de obra para quem constrói."
+      footer="ObraReal: controle financeiro de obra para quem constrói."
       banner={
         <div className="flex items-start gap-2.5 rounded-xl border border-accent-dim bg-accent-dim/30 px-4 py-3">
           <CheckCircle size={16} weight="fill" className="mt-0.5 shrink-0 text-accent-text" />

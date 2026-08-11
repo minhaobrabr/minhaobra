@@ -10,7 +10,7 @@ export default function LoginPage() {
     <AuthShell
       title="Controle total da sua obra."
       subtitle="Entre com sua conta Google para continuar."
-      footer="ObraControl: controle financeiro de obra para quem constrói."
+      footer="ObraReal: controle financeiro de obra para quem constrói."
     >
       <GoogleAuthForm mode="login" />
     </AuthShell>

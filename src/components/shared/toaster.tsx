@@ -15,7 +15,7 @@ interface ToastItem extends ToastInput {
   id: string;
 }
 
-const EVENTO = "obracontrol:toast";
+const EVENTO = "obrareal:toast";
 
 /**
  * API imperativa simples: qualquer client component pode chamar `toast(...)`

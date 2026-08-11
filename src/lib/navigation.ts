@@ -26,5 +26,5 @@ export function tituloDaRota(pathname: string): string {
   const item = NAV_ITEMS.find(
     (nav) => pathname === nav.href || pathname.startsWith(`${nav.href}/`),
   );
-  return item?.title ?? "ObraControl";
+  return item?.title ?? "ObraReal";
 }

@@ -33,7 +33,7 @@ export function GoogleAuthForm({ mode }: GoogleAuthFormProps) {
 
       <div>
         <p className="text-xs font-medium tracking-wide text-ink-muted">
-          O que o ObraControl acessa da sua conta Google
+          O que o ObraReal acessa da sua conta Google
         </p>
         <ul className="mt-2.5 grid grid-cols-3 gap-2">
           {DADOS_ACESSADOS.map((item) => (

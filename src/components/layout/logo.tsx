@@ -28,7 +28,7 @@ export function Logo({ className, size = "md" }: LogoProps) {
           size === "sm" ? "text-sm" : "text-[15px]",
         )}
       >
-        Obra<span className="text-accent-text">Control</span>
+        Obra<span className="text-accent-text">Real</span>
       </span>
     </span>
   );

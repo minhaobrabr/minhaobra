@@ -1,4 +1,4 @@
-# ObraControl
+# ObraReal
 
 Controle financeiro de obra — recursos, despesas e relatório consolidado.
 Next.js 14 (App Router) · TypeScript · Tailwind v4 · Radix/shadcn · Motion · Recharts · Phosphor Icons.

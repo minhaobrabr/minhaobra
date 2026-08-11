@@ -9,8 +9,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ObraControl",
-    template: "%s · ObraControl",
+    default: "ObraReal",
+    template: "%s · ObraReal",
   },
   description:
     "Controle financeiro de obra: recursos, despesas e relatórios em um só lugar.",

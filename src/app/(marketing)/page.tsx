@@ -10,7 +10,7 @@ import { ProofSection } from "@/components/marketing/proof-section";
 import { TestimonialsSection } from "@/components/marketing/testimonials-section";
 
 export const metadata: Metadata = {
-  title: "ObraControl - Sua obra dentro do orçamento",
+  title: "ObraReal - Sua obra dentro do orçamento",
 };
 
 export default function LandingPage() {
