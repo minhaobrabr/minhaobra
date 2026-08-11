@@ -79,9 +79,9 @@ export function DespesasView() {
 
       <Tabs defaultValue="lancamentos">
         <TabsList className="mb-5">
-          <TabsTrigger value="lancamentos">Lançamentos</TabsTrigger>
           <TabsTrigger value="prestadores">
             Prestadores{prestadores.length > 0 ? ` (${prestadores.length})` : ""}
+            <TabsTrigger value="lancamentos">Lançamentos</TabsTrigger>
           </TabsTrigger>
         </TabsList>
 
