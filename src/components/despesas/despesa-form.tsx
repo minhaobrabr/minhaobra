@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Warning } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, Info, Warning } from "@phosphor-icons/react/dist/ssr";
 
 import { CategoryBadge } from "@/components/despesas/category-badge";
 import { CategorySegmented } from "@/components/despesas/category-segmented";
@@ -106,7 +106,26 @@ export function DespesaForm() {
     // Um prestador só faz sentido para a categoria em que foi cadastrado — trocar de
     // Mão de obra para Serviço (ou para Material), por exemplo, solta o vínculo.
     const mantemPrestador = prestadorSelecionado?.categoria === categoria;
-    setForm({ ...form, categoria, prestadorId: mantemPrestador ? form.prestadorId : null });
+    setForm((atual) => ({
+      ...atual,
+      categoria,
+      prestadorId: mantemPrestador ? atual.prestadorId : null,
+    }));
+    marcarTocado("categoria");
+  }
+
+  function handlePrestadorChange(valor: string) {
+    const prestadorId = valor === FORNECEDOR_AVULSO ? null : valor;
+    const prestador = prestadorId ? prestadores.find((item) => item.id === prestadorId) : undefined;
+
+    setForm((atual) => ({
+      ...atual,
+      prestadorId,
+      // Só sugere a descrição se o campo ainda estiver vazio — nunca sobrescreve o que
+      // o usuário já digitou com a própria mão.
+      descricao:
+        prestador && !atual.descricao.trim() ? `Pagamento — ${prestador.nome}` : atual.descricao,
+    }));
   }
 
   // Ao editar, o valor antigo volta para o caixa antes de descontar o novo.
@@ -165,21 +184,16 @@ export function DespesaForm() {
       <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 gap-4 lg:grid-cols-5">
         <Reveal className="lg:col-span-3">
           <div className="space-y-5 rounded-2xl border border-line bg-surface-1 p-5 sm:p-6">
-            <Field
-              id="despesa-descricao"
-              label="Descrição"
-              required
-              error={erroDe("descricao")}
-            >
-              <Input
-                id="despesa-descricao"
-                value={form.descricao}
-                onChange={(event) => setForm({ ...form, descricao: event.target.value })}
-                onBlur={() => marcarTocado("descricao")}
-                aria-invalid={Boolean(erroDe("descricao"))}
-                autoFocus
-              />
-            </Field>
+            {!despesaExistente ? (
+              <div className="flex items-start gap-2.5 rounded-xl border border-line bg-surface-2/60 px-4 py-3">
+                <Info size={16} className="mt-0.5 shrink-0 text-accent-text" />
+                <p className="text-xs leading-relaxed text-ink-muted">
+                  Comece pela categoria. Se for mão de obra ou serviço, você pode vincular o gasto
+                  a um prestador cadastrado — assim acompanha quanto já pagou e quanto ainda falta,
+                  sem digitar o mesmo nome toda vez.
+                </p>
+              </div>
+            ) : null}
 
             <div className="space-y-1.5">
               <p className="text-xs font-medium tracking-wide text-ink-muted">
@@ -197,6 +211,61 @@ export function DespesaForm() {
                 </p>
               ) : null}
             </div>
+
+            {categoriaAceitaPrestador ? (
+              <div className="space-y-1.5 rounded-xl border border-line bg-surface-2/40 p-4">
+                <div className="flex items-baseline justify-between gap-3">
+                  <Label htmlFor="despesa-prestador">
+                    Prestador <span className="text-[11px] font-normal text-ink-faint">opcional</span>
+                  </Label>
+                  <PrestadorModal
+                    onSubmit={(dados) => criarPrestador(dados)}
+                    trigger={
+                      <button
+                        type="button"
+                        className="text-[11px] font-medium text-accent-text transition-colors hover:text-accent"
+                      >
+                        + Novo prestador
+                      </button>
+                    }
+                  />
+                </div>
+                <Select value={form.prestadorId ?? FORNECEDOR_AVULSO} onValueChange={handlePrestadorChange}>
+                  <SelectTrigger id="despesa-prestador">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={FORNECEDOR_AVULSO}>Fornecedor avulso (sem cadastro)</SelectItem>
+                    {prestadoresDaCategoria.map((prestador) => (
+                      <SelectItem key={prestador.id} value={prestador.id}>
+                        {prestador.nome}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[11px] text-ink-faint">
+                  {prestadorSelecionado
+                    ? "Este pagamento entra no histórico do prestador, com saldo devedor atualizado."
+                    : "É a mesma pessoa ou empresa de sempre? Vincule a um prestador cadastrado — ou crie um agora."}
+                </p>
+              </div>
+            ) : null}
+
+            <Field
+              id="despesa-descricao"
+              label="Descrição"
+              required
+              error={erroDe("descricao")}
+            >
+              <Input
+                id="despesa-descricao"
+                value={form.descricao}
+                onChange={(event) => setForm({ ...form, descricao: event.target.value })}
+                onBlur={() => marcarTocado("descricao")}
+                aria-invalid={Boolean(erroDe("descricao"))}
+                autoFocus
+              />
+            </Field>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field
@@ -232,50 +301,6 @@ export function DespesaForm() {
                 />
               </Field>
             </div>
-
-            {categoriaAceitaPrestador ? (
-              <div className="space-y-1.5">
-                <div className="flex items-baseline justify-between gap-3">
-                  <Label htmlFor="despesa-prestador">
-                    Prestador <span className="text-[11px] font-normal text-ink-faint">opcional</span>
-                  </Label>
-                  <PrestadorModal
-                    onSubmit={(dados) => criarPrestador(dados)}
-                    trigger={
-                      <button
-                        type="button"
-                        className="text-[11px] font-medium text-accent-text transition-colors hover:text-accent"
-                      >
-                        + Novo prestador
-                      </button>
-                    }
-                  />
-                </div>
-                <Select
-                  value={form.prestadorId ?? FORNECEDOR_AVULSO}
-                  onValueChange={(valor) =>
-                    setForm({ ...form, prestadorId: valor === FORNECEDOR_AVULSO ? null : valor })
-                  }
-                >
-                  <SelectTrigger id="despesa-prestador">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={FORNECEDOR_AVULSO}>Fornecedor avulso (sem cadastro)</SelectItem>
-                    {prestadoresDaCategoria.map((prestador) => (
-                      <SelectItem key={prestador.id} value={prestador.id}>
-                        {prestador.nome}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <p className="text-[11px] text-ink-faint">
-                  {prestadorSelecionado
-                    ? "Este pagamento entra no histórico do prestador, com saldo devedor atualizado."
-                    : "Vincule a um prestador cadastrado para acompanhar quanto já foi pago a ele."}
-                </p>
-              </div>
-            ) : null}
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {!prestadorSelecionado ? (
