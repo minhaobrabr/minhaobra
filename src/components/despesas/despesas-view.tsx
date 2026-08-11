@@ -81,9 +81,13 @@ export function DespesasView() {
         <TabsList className="mb-5">
           <TabsTrigger value="prestadores">
             Prestadores{prestadores.length > 0 ? ` (${prestadores.length})` : ""}
-            <TabsTrigger value="lancamentos">Lançamentos</TabsTrigger>
           </TabsTrigger>
+          <TabsTrigger value="lancamentos">Lançamentos</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="prestadores" className="mt-0">
+          <PrestadoresView />
+        </TabsContent>
 
         <TabsContent value="lancamentos" className="mt-0">
           {despesas.length === 0 ? (
@@ -127,10 +131,6 @@ export function DespesasView() {
               </div>
             </>
           )}
-        </TabsContent>
-
-        <TabsContent value="prestadores" className="mt-0">
-          <PrestadoresView />
         </TabsContent>
       </Tabs>
     </>
